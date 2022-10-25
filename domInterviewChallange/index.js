@@ -12,7 +12,7 @@ You can the given HTML & CSS for display purposes
 
 const apiBaseUrl = "https://jsonplaceholder.typicode.com"
 
-async function fetchUser(userId){
+async function fetchUser(userId) {
     const url = `${apiBaseUrl}/users/${userId}`;
     try {
         const res = await fetch(url);
@@ -23,8 +23,8 @@ async function fetchUser(userId){
     }
 }
 
-async function main(){
-    const settledUsers = await fetchUsers([2,5,7,-1]);
+async function main() {
+    const settledUsers = await fetchUsers([2, 5, 7]);
     const users = settledUsers
         .filter((o) => o.status === "fulfilled")
         .map((outcome) => outcome.value);
@@ -32,12 +32,25 @@ async function main(){
 }
 
 
-async function fetchUsers(userIds  = []){
+// async function fetchUsers(userIds = []) {
+//     const usersPromises = [];
+//     console.time("fetch")
+//     for (const id of userIds) {
+//         const userPromise = fetchUser(id);
+//         usersPromises.push(userPromise)
+//     }
+//     const settledUserPromises = await Promise.allSettled(usersPromises);
+//     console.timeEnd("fetch")
+//     return settledUserPromises;
+// }
+
+async function fetchUsers(userIds = []) {
     const userFetchPromises = userIds.map((id) => fetchUser(id));
     const settleUserPromises = await Promise.allSettled(userFetchPromises);
     console.log(settleUserPromises);
     return settleUserPromises;
 }
+
 
 
 
@@ -64,11 +77,12 @@ const mockUsers = [
         }
     }
 ]
-
+dojo = "test"
+console.log(dojo)
 function makeUserNode(user) {
 
-    const {id, name, address} = user;
-    const {suite, street, city, zipcode} = address;
+    const { id, name, address } = user;
+    const { suite, street, city, zipcode } = address;
     const userDiv = document.createElement('div');
     userDiv.id = `user-id-${id}`;
     userDiv.classList.add("mb-sm");
@@ -90,7 +104,7 @@ const usersContainer = document.getElementById("users-container");
 // const userNode = makeUserNode(mockUsers[0]);
 // usersContainer.appendChild(userNode)
 
-function renderUsers(users = [], parentNode){
+function renderUsers(users = [], parentNode) {
     const usersRow = document.createElement('div');
     usersRow.classList.add("row");
 
