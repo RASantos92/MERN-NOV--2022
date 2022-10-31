@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import FlashcardFrom from "./FlashcardFrom";
+import FlashcardForm from "./FlashcardForm";
 import OneFlashcard from "./OneFlashcard";
 import axios from 'axios'
 import { getQuestions } from "../services/triviaApiService";
@@ -61,7 +61,7 @@ const Flashcards = (props) => {
                 <h1>Programming Flash Cards</h1>
                 <hr />
             </header>
-            <FlashcardFrom
+            <FlashcardForm
                 addNewFlashcard={addNewFlashcard}
             />
             <h1>{isLoading}</h1>
