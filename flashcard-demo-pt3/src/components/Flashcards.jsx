@@ -1,16 +1,33 @@
 import React from "react";
-import { useState , useEffect} from "react";
-import flashCardData from '../data/flashCards.json';
+import { useState, useEffect } from "react";
 import FlashcardFrom from "./FlashcardFrom";
 import OneFlashcard from "./OneFlashcard";
+import axios from 'axios'
+import { getQuestions } from "../services/triviaApiService";
 
 const Flashcards = (props) => {
-    const [flashcards, setFlashcards] = useState(flashCardData);
+    const [flashcards, setFlashcards] = useState(null);
+    const [isLoading, setIsLoading] = useState(false)
+    const {queryParams} = props
 
-useEffect(()=> {
-    console.log('this useEffect runs every time the component monts or re-renders')
-},[])
 
+    useEffect(() => {
+        setIsLoading(true)
+        setTimeout(() => {
+            getQuestions(queryParams)
+                .then((res) => {
+                    console.log(res.results);
+                    setFlashcards(res.results);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(
+                    setIsLoading(false)
+                )
+        }, 5000)
+
+    }, [queryParams])
 
     const addNewFlashcard = (newFlashcard) => {
         const updatedCards = [newFlashcard, ...flashcards]
@@ -47,10 +64,14 @@ useEffect(()=> {
             <FlashcardFrom
                 addNewFlashcard={addNewFlashcard}
             />
+            <h1>{isLoading}</h1>
             <hr></hr>
             <main className='flex-row flex-wrap'>
                 {
-                    flashcards.map((card, i) => {
+                    isLoading && <p>Loading...</p>
+                }
+                {
+                    flashcards !== null && flashcards.map((card, i) => {
                         return (
                             <OneFlashcard
                                 card={card}
