@@ -4,9 +4,10 @@ const http = axios.create({
     baseURL: "https://api.spacexdata.com/v4"
 }) 
 
-export const getAllLaunches = async () => {
-    const res = await http.get('/launches');
-    return res.data;
+export const getAllLaunches = async (id) => {
+    const person = await http.get(`/person/${id}`);
+    const homeworld = await http.get(`/homeworld/${person.homeworld}`)
+    return {person: person, homeworld: homeworld};
 }
 
 export const getOneLaunch = async (id) => {

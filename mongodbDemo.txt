@@ -1,0 +1,188 @@
+> show dbs    
+admin              0.000GB
+author-db          0.000GB
+authorsv2          0.000GB
+config             0.000GB
+crmdb              0.000GB
+exam_2             0.000GB
+jokes              0.000GB
+jokesV2            0.000GB
+jokesapi           0.000GB
+local              0.000GB
+myFirstDb          0.000GB
+name_of_your_DB    0.000GB
+pet                0.000GB
+productManager     0.000GB
+productdb          0.000GB
+teamManager        0.000GB
+test               0.000GB
+testApp            0.000GB
+trip-planner-test  0.000GB
+user               0.000GB
+widgets            0.000GB
+> use trips
+switched to db trips
+
+
+> db ## show what db you are in at the moment
+trips
+
+
+
+
+        ## created collection upon entering date to collection
+> db.destinations.insertOne({place:'japan', description:'for the food'}) ## inserted an instance
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6363ecd1b1fbe067abe66706")
+}
+> show collections
+destinations
+> db.destination.insertOne({place:'test'})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6363ed29b1fbe067abe66707")
+}
+> show collections
+destination
+destinations
+> db.destinations.insertOne({place:'japan', description:'vist mt fuji'})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6363ed4bb1fbe067abe66708")
+}
+> db.destinations.insertOne({place:'ice Lannd', description:'vist mt fuji'})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6363ed69b1fbe067abe66709")
+}
+> db.destinations.insertOne({p:'ice Lannd', desc:'vist mt fuji'})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6363ed88b1fbe067abe6670a")
+}
+>
+>
+>  ### find All and find one useing .find().pretty()
+>
+> db.destinations.find()
+{ "_id" : ObjectId("6363ecd1b1fbe067abe66706"), "place" : "japan", "description" : "for the food" }
+{ "_id" : ObjectId("6363ed4bb1fbe067abe66708"), "place" : "japan", "description" : "vist mt fuji" }
+{ "_id" : ObjectId("6363ed69b1fbe067abe66709"), "place" : "ice Lannd", "description" : "vist mt fuji" }
+{ "_id" : ObjectId("6363ed88b1fbe067abe6670a"), "p" : "ice Lannd", "desc" : "vist mt fuji" }
+> db.destinations.find({place: 'ice Lannd'})
+{ "_id" : ObjectId("6363ed69b1fbe067abe66709"), "place" : "ice Lannd", "description" : "vist mt fuji" }
+> db.destinations.find().pretty()
+{
+        "_id" : ObjectId("6363ecd1b1fbe067abe66706"),
+        "place" : "japan",
+        "description" : "for the food"
+}
+{
+        "_id" : ObjectId("6363ed4bb1fbe067abe66708"),
+        "place" : "japan",
+        "description" : "vist mt fuji"
+}
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice Lannd",
+        "description" : "vist mt fuji"
+}
+{
+        "_id" : ObjectId("6363ed88b1fbe067abe6670a"),
+        "p" : "ice Lannd",
+        "desc" : "vist mt fuji"
+}
+>
+> db.destinations.find({place:'ice Lannd'}).pretty()
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice Lannd",
+        "description" : "vist mt fuji"
+}
+> db.destinations.find({p:'ice Lannd', desc: }).pretty()
+uncaught exception: SyntaxError: expected expression, got '}' :
+@(shell):1:43
+> db.destinations.find({p:'ice Lannd', desc: 'vist mt fuji' }).pretty()
+{
+        "_id" : ObjectId("6363ed88b1fbe067abe6670a"),
+        "p" : "ice Lannd",
+        "desc" : "vist mt fuji"
+}
+> db.destinations.find({_id: ObjectId("6363ed88b1fbe067abe6670a")}).pretty()
+{
+        "_id" : ObjectId("6363ed88b1fbe067abe6670a"),
+        "p" : "ice Lannd",
+        "desc" : "vist mt fuji"
+}
+
+######
+Delete records 
+######
+> db.destinations.remove({p: "ice Lannd", desc: 'visit mt fuji})
+uncaught exception: SyntaxError: '' literal not terminated before end of script :
+@(shell):1:62
+> db.destinations.remove({p: "ice Lannd", desc: 'visit mt fuji'})
+WriteResult({ "nRemoved" : 0 })
+> db.destinations.remove({p: "ice Lannd", desc: 'vist mt fuji'})
+WriteResult({ "nRemoved" : 1 })
+> db.desinations.find().pretty()
+> db.destinations.find().pretty()
+{
+        "_id" : ObjectId("6363ecd1b1fbe067abe66706"),
+        "place" : "japan",
+        "description" : "for the food"
+}
+{
+        "_id" : ObjectId("6363ed4bb1fbe067abe66708"),
+        "place" : "japan",
+        "description" : "vist mt fuji"
+}
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice Lannd",
+        "description" : "vist mt fuji"
+}
+
+####
+delete multiple records
+####
+> db.destinations.remove({place:'japan'})
+WriteResult({ "nRemoved" : 2 })
+> db.destinations.find().pretty()
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice Lannd",
+        "description" : "vist mt fuji"
+}
+> db.destinations.find().pretty()
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice Lannd",
+        "description" : "vist mt fuji"
+}
+
+
+####
+updating the wrong way
+####
+
+> db.destinations.update({_id: ObjectId("6363ed69b1fbe067abe66709")},{place:'ice land'})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+> db.destinations.find().pretty()
+{ "_id" : ObjectId("6363ed69b1fbe067abe66709"), "place" : "ice land" }
+
+####
+updating the right way using $set:
+####
+
+> db.destinations.update({_id: ObjectId("6363ed69b1fbe067abe66709")},{$set:{description:'lutefisk'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.destinations.find().pretty()
+{
+        "_id" : ObjectId("6363ed69b1fbe067abe66709"),
+        "place" : "ice land",
+        "description" : "lutefisk"
+}
+>
