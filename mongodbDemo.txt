@@ -63,7 +63,7 @@ destinations
 }
 >
 >
->  ### find All and find one useing .find().pretty()
+>  ### find All and find one using .find().pretty()
 >
 > db.destinations.find()
 { "_id" : ObjectId("6363ecd1b1fbe067abe66706"), "place" : "japan", "description" : "for the food" }
