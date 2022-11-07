@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { getAllDestinations } from "../services/internalApiService"
+import { getAllDestinations, deleteDestination } from "../services/internalApiService"
 
 export const AllDestinations = (props) => {
     const [destinations, setDestinations] = useState([])
@@ -14,6 +14,21 @@ export const AllDestinations = (props) => {
                 console.log(error);
             })
     }, []) 
+
+    const handleDeleteClick = (idToDelete) => {
+        deleteDestination(idToDelete)
+        .then((data) => {
+            console.log(data)
+            const filteredDestinations = destinations.filter((destination) => {
+                return destination._id !== idToDelete
+            })
+            setDestinations(filteredDestinations)
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    }
+
     return (
         <div className="w-50 mx-auto text-center">
             <h2>Travel Destinations</h2>
@@ -32,6 +47,15 @@ export const AllDestinations = (props) => {
                             {fall && <li className="list-group-item">Fall</li>}
                             {winter && <li className="list-group-item">Winter</li>}
                         </ul>
+                        <button 
+                        className="btn btn-sm btn-outline-danger mx-1"
+                        onClick={(e)=> {
+                            handleDeleteClick(_id)
+                        }}
+                        >
+                            Delete
+                        </button>
+                        <Link to={`/destinations/${_id}/edit`}> Edit </Link>
                     </div>
                 )
             })}

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { getDestinationById } from '../services/internalApiService';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getDestinationById , deleteDestination} from '../services/internalApiService';
 
 export const OneDestination = (props) => {
     const { id } = useParams();
     const [destination, setDestination] = useState(null)
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getDestinationById(id)
@@ -16,10 +18,20 @@ export const OneDestination = (props) => {
             })
     }, [id])
 
+    const handleDeleteClick = () => {
+        deleteDestination(id)
+            .then((data) => {
+                navigate('/destinations')
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     if (destination === null) {
         return null;
     }
-
+    
     const { location, description, summer, winter, spring, fall, srcType, src } = destination
     return (
         <div className="w-100 mx-auto shadow mb-4 rounded border p-4">
@@ -60,6 +72,11 @@ export const OneDestination = (props) => {
                 ></iframe>
             )}
 
+            <button
+            className="btn btn-sm btn-outline-danger mx-auto"
+            onClick={()=> {
+                handleDeleteClick()
+            }}> Delete</button>
 
         </div>
     )

@@ -21,8 +21,8 @@ export const NewDestination = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        for(const key in formData){
-            if(formData[key] === false){
+        for (const key in formData) {
+            if (formData[key] === false) {
                 delete formData[key];
             }
         }
@@ -32,12 +32,13 @@ export const NewDestination = (props) => {
                 navigate(`/destinations/${data._id}`)
             })
             .catch((error) => {
-                console.log(error.response);
+                console.log(error.response?.data?.errors);
+                setErrors(error.response?.data?.errors)
             })
     }
 
     const handleFormChanges = (e) => {
-        if(e.target.checked){
+        if (e.target.checked) {
             setFormData({
                 ...formData,
                 [e.target.name]: e.target.checked,
@@ -66,6 +67,11 @@ export const NewDestination = (props) => {
                         value={formData.location}
                         className="form-control"
                     />
+                {
+                    errors?.location && (
+                        <span className="text-danger">{errors.location?.message}</span>
+                    )
+                }
                 </div>
                 <div className="form-group">
                     <label className="h6">description</label>
@@ -77,6 +83,11 @@ export const NewDestination = (props) => {
                         className="form-control"
                     />
                 </div>
+                {
+                    errors?.description && (
+                        <span className="text-danger">{errors.description?.message}</span>
+                    )
+                }
                 <div className="form-group">
                     <label className="h6">Media Url</label>
                     <input

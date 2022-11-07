@@ -1,0 +1,7 @@
+Dashboard: Display all destinations
+Users can create new destinations
+Users can remove destinations
+User can update destinations
+Validations
+All fields are required except for the checkboxes
+Display back end errors
