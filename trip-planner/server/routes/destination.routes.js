@@ -5,7 +5,8 @@ const {
     handleGetAllDestinations,
     handleGetDestinationById,
     handleDeleteDestinationById,
-    handleUpdateDestinationById
+    handleUpdateDestinationById,
+    handleCreateManyDestinations
 } = require('../controllers/destination.controller')
 
 
@@ -17,6 +18,7 @@ router.post('/', handleCreateDestination)
 router.get('/:id', handleGetDestinationById)
 router.delete('/:id', handleDeleteDestinationById)
 router.put('/:id', handleUpdateDestinationById)
+router.post('/many', handleCreateManyDestinations)
 
 
 module.exports = { destinationRouter: router }
