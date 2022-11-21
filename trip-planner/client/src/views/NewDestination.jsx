@@ -38,7 +38,7 @@ export const NewDestination = (props) => {
     }
 
     const handleFormChanges = (e) => {
-        if (e.target.checked) {
+        if (e.target.type === 'checkbox') {
             setFormData({
                 ...formData,
                 [e.target.name]: e.target.checked,
